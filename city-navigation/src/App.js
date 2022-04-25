@@ -1,20 +1,15 @@
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import navigation from './assets/navigation.json';
-import './App.css';
 
-const PageWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
-
-const Navigation = styled.ul`
+const Navbar = styled.ul`
   display: flex;
   list-style-type: none;
   width: 100%;
-  background-color: red;
-  flex-direction: row;
-  height: 50px;
+  justify-content: center;
+  align-items: center;
 `;
+
 
 const NavItem = styled.li`
   flex: 1;
@@ -23,27 +18,65 @@ const NavItem = styled.li`
 `;
 
 const NavLink = styled.a`
-  display: block;
+  display: inline-block;
+  position: relative;
   color: gray;
   text-align: center;
-  padding: 14px 16px;
   text-decoration: none;
+  &:hover {
+    color: blue;
+  }
 `;
 
-function App() {
-  console.log('navigation', navigation);
+const NavLine = styled.hr`
+  background-color: black;
+  height: 2px;
+  margin: 0;
+  position: absolute;
+  left: ${({ left }) => `${left}px`};
+  width: ${({ lineWidth }) => `${lineWidth}px`};
+  transition: left 400ms, width 300ms;
+`
+
+const StyledLine = styled.hr`
+  background-color: lightgray;
+  height: 2px;
+  margin: 0;
+  width: 100%;
+`
+
+const App = () => {
+  const [left, setLeft] = useState(0);
+  const [lineWidth, setLineWidth] = useState();
+  const refs = useRef([]);
+
+  const handleClick = (index) => {
+    const currentEl = refs.current[index].getBoundingClientRect();
+    setLeft(currentEl.left - 8);
+    setLineWidth(currentEl.width + 8);
+    console.log(refs.current[index].getBoundingClientRect());
+  }
+
   return (
-    <PageWrapper>
-      <Navigation> 
+    <div className="App" style={{ position: 'relative'}}>
+      <Navbar>
         {navigation.cities.map((item, index) => {
           return (
-          <NavItem>
-            <NavLink href={`#${item?.section}`}>{item.label}</NavLink> 
-          </NavItem>
-        );
+            <NavItem key={`Nav item-${index}`}>
+              <NavLink
+                href={`#${item?.section}`}
+                onClick={() => handleClick(index)} 
+                ref={(el) => refs.current[index] = el}
+              >
+                {item.label}
+              </NavLink>
+            </NavItem>
+          );
         })}
-      </Navigation>
-    </PageWrapper>
+      </Navbar>
+      <NavLine left={left} lineWidth={lineWidth} />
+      <StyledLine />
+    </div>
   );
 }
 
