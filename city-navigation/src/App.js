@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import data from './data.json';
+import navigation from './assets/navigation.json';
 
 const Navbar = styled.ul`
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   list-style-type: none;
   width: 100%;
 `;
@@ -45,6 +45,7 @@ const StyledLine = styled.hr`
 `;
 
 const TimeWrapper = styled.div`
+  margin-top: 40px;
   align-items: center;
   border: 5px black solid;
   display: flex;
@@ -75,17 +76,17 @@ const App = () => {
 
   const handleClick = (index) => {
     const currentEl = refs.current[index].getBoundingClientRect();
-    setLeft(currentEl.left - 12);
-    setLineWidth(currentEl.width + 8);
+    setLeft(currentEl.left);
+    setLineWidth(currentEl.width);
     setActive(index);
   }
 
-  const currentTime = date.toLocaleString("en-US", { timeZone: data.cities[active].timeZone})
+  const currentTime = date.toLocaleString("en-US", { timeZone: navigation.cities[active].timeZone})
 
   return (
     <div className="App" style={{ position: 'relative'}}>
       <Navbar>
-        {data.cities.map((item, index) => {
+        {navigation.cities.map((item, index) => {
           return (
             <NavItem key={`Nav item-${index}`}>
               <NavLink
