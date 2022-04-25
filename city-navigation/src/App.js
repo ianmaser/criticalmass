@@ -5,15 +5,13 @@ import navigation from './assets/navigation.json';
 const Navbar = styled.ul`
   align-items: center;
   display: flex;
-  justify-content: space-between;
   list-style-type: none;
-  width: 100%;
 `;
 
 const NavItem = styled.li`
   align-items: center;
   flex: 1;
-  justify-content: center;
+  text-align: center;
 `;
 
 const NavLink = styled.a`
@@ -23,7 +21,7 @@ const NavLink = styled.a`
   text-align: center;
   text-decoration: none;
   &:hover {
-    color: ${({active}) => active ? 'black' : 'blue'};
+    color: ${({active}) => active ? 'black' : '#039be5'};
   }
 `;
 
@@ -38,23 +36,24 @@ const NavLine = styled.hr`
 `;
 
 const StyledLine = styled.hr`
-  background-color: lightgray;
-  height: 2px;
+  background-color: #F5F6FA;
+  height: 0.5px;
   margin: 0;
   width: 100%;
 `;
 
 const TimeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 40px;
   align-items: center;
   border: 5px black solid;
-  display: flex;
-  justify-content: center;
   padding: 10px 20px; 
 `;
 
 const TimeDisplay = styled.h1`
   font-size: 50px;
+  text-align: center;
 `;
 
 const App = () => {
@@ -81,7 +80,7 @@ const App = () => {
     setActive(index);
   }
 
-  const currentTime = date.toLocaleString("en-US", { timeZone: navigation.cities[active].timeZone})
+  const currentTime = date.toLocaleString("en-US", { timeZone: navigation.cities[active].timeZone })
 
   return (
     <div className="App" style={{ position: 'relative'}}>
@@ -105,6 +104,8 @@ const App = () => {
       <StyledLine />
       <TimeWrapper>
         <TimeDisplay>
+          {`The time in ${navigation.cities[active].label} is:`}
+          <br />
           {currentTime}
         </TimeDisplay>
       </TimeWrapper>
